@@ -1,0 +1,105 @@
+ Pivotal Account:
+ hotmail/Kusuma143
+ 
+ URL to check the cloud account and server management:
+ https://console.run.pivotal.io
+ 
+ PCF CLI:
+ https://github.com/cloudfoundry/cli/releases
+
+ 
+ PCF DEV:
+ https://network.pivotal.io/products/pcfdev
+ 
+ Samples to test:
+ https://github.com/cloudfoundry-samples/
+ 
+
+ 
+ Two deployment options:
+ Pivotal Web services - an instance of PCF hosted on cloud
+ PCF Dev - lightweight PCF installation that runs on a single VM on your workstation
+ 
+ 
+ Using PCF CLI to deploy to PWS:
+ 
+ 1. cf login -a https://api.run.pivotal.io
+ 2. Enter the email id and pwd used when created the account
+ 3. cf push
+ 
+ The name with which the app is used to deploy is shown in the console after deployment :
+ 
+name:              cf-spring
+
+4. Navigate to URL: The URL is the Route under "Apps" section:
+https://cf-spring-intelligent-panther.cfapps.io/
+
+5. Tail the logs :
+  cf logs cf-sample-app-spring --recent    -> Recent logs
+  cf logs cf-sample-app-spring		   -> live stream
+  
+6. Info about app environment:
+cf env cf-spring-gan
+  
+  
+Hosting on custom URLs:
+1. create a domain under org 
+cf create-domain skynet-org learninjava.com
+
+2. Create a route to the domain 
+cf map-route cf-spring-gan learninjava.com --hostname lcf
+
+
+  
+  
+  
+ Scaling:
+ Increase the number of app instances from one to two:
+
+cf scale cf-spring -i 2
+Check the status of the app and verify there are two instances running:
+
+cf app cf-spring
+Scaling your app vertically changes the disk space limit or memory limit for each app instance.
+
+Increase the memory limit for each app instance:
+
+cf scale cf-spring -m 1G
+Increase the disk limit for each app instance:
+
+cf scale cf-spring -k 512M
+ 
+ 
+Commands:
+cf delete <app-name> - Delete an app
+cf app cf-spring-app - shows the app status and health
+cf spaces - lists all the spaces
+cf domains - lists all the domains. This is useful in creating routes(TCP or Http)
+cf routes - lists all the routes
+cf services - lists all the services
+cf restart cf-spring-gan - restart the app
+cf restage YOUR-APP - restage the app - compiles the droplet again without updating app source
+cf stacks - lists all the stacks available
+
+Start Commands:
+CF finds the start command from one of the three sources below:
+1. -c option in the command
+
+example,
+cf push YOUR-APP -c "node YOUR-APP.js"
+
+2. command attribute in the manifest file:
+
+example,
+command: node YOUR-APP.js
+
+3. The buildpack, which provides a start command appropriate for a particular type of application.
+To force to use this option,
+use pass null in step 1 or 2
+cf push YOUR-APP -c "null"
+or
+command: null
+
+Intro about Diego:
+https://starkandwayne.com/blog/demystifying-cloud-foundrys-diego/
+ 
