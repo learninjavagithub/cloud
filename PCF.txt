@@ -1,6 +1,4 @@
- Pivotal Account:
- hotmail/Kusuma143
- 
+
  URL to check the cloud account and server management:
  https://console.run.pivotal.io
  
